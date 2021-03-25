@@ -1,6 +1,26 @@
 import React, { useState } from 'react';
 import { Box, TextField, Button, List, ListItem } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: 50,
+    width: '90%',
+    [theme.breakpoints.up('sm')]: {
+      width: 540,
+    },
+  },
+  list: {
+    border: '1px solid'
+  },
+  item: {
+    borderBottom: '1px solid',
+    '&:last-child': {
+      borderColor: 'transparent'
+    }
+  },
+}));
 
 const initialData = [
   "Milk",
@@ -10,6 +30,7 @@ const initialData = [
 ];
 
 function App() {
+  const classes = useStyles();
   const [data, setData] = useState(initialData);
   const [searchKey, setSearchKey] = useState("");
 
@@ -27,36 +48,38 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <Box
-        display="flex"
-      >
-        <TextField
-          fullWidth
-          placeholder="Search"
-          variant="outlined"
-          onChange={onSearch}
-        />
-        <Button
-          color="primary"
-          variant="contained"
-          endIcon={<AddIcon />}
-          onClick={onAddData}
+    <div className="App" style={{ display: 'flex', justifyContent: 'center' }}>
+      <div className={classes.container}>
+        <Box
+          display="flex"
         >
-          Add
+          <TextField
+            fullWidth
+            placeholder="Search"
+            variant="outlined"
+            onChange={onSearch}
+          />
+          <Button
+            color="primary"
+            variant="contained"
+            endIcon={<AddIcon />}
+            onClick={onAddData}
+          >
+            Add
         </Button>
-      </Box>
-      <List >
-        {
-          data
-            .filter(item => searchKey.isEmpty || (item.toLowerCase().includes(searchKey.toLowerCase())))
-            .map((item, index) => (
-              <ListItem key={index}>
-                {item}
-              </ListItem>
-            ))
-        }
-      </List>
+        </Box>
+        <List className={classes.list}>
+          {
+            data
+              .filter(item => searchKey.isEmpty || (item.toLowerCase().includes(searchKey.toLowerCase())))
+              .map((item, index) => (
+                <ListItem key={index} className={classes.item}>
+                  {item}
+                </ListItem>
+              ))
+          }
+        </List>
+      </div>
     </div>
   );
 }
