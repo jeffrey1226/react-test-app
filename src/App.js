@@ -1,26 +1,4 @@
 import React, { useState } from 'react';
-import { Box, TextField, Button, List, ListItem } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-
-const useStyles = makeStyles((theme) => ({
-  container: {
-    marginTop: 50,
-    width: '90%',
-    [theme.breakpoints.up('sm')]: {
-      width: 540,
-    },
-  },
-  list: {
-    border: '1px solid'
-  },
-  item: {
-    borderBottom: '1px solid',
-    '&:last-child': {
-      borderColor: 'transparent'
-    }
-  },
-}));
 
 const initialData = [
   "Milk",
@@ -30,7 +8,6 @@ const initialData = [
 ];
 
 function App() {
-  const classes = useStyles();
   const [data, setData] = useState(initialData);
   const [searchKey, setSearchKey] = useState("");
 
@@ -48,37 +25,33 @@ function App() {
   }
 
   return (
-    <div className="App" style={{ display: 'flex', justifyContent: 'center' }}>
-      <div className={classes.container}>
-        <Box
-          display="flex"
-        >
-          <TextField
-            fullWidth
+    <div className="App flex justify-center">
+      <div className="container w-11/12 sm:w-500 m-2">
+        <div className="flex">
+          <input
+            type="text"
+            className="flex-1 border-1 border-gray-500 text-gray-900 rounded-md py-3 px-4 focus:outline-none"
             placeholder="Search"
-            variant="outlined"
             onChange={onSearch}
           />
-          <Button
-            color="primary"
-            variant="contained"
-            endIcon={<AddIcon />}
+          <button
+            className="ml-2 py-2 px-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-black focus:outline-none"
             onClick={onAddData}
           >
             Add
-        </Button>
-        </Box>
-        <List className={classes.list}>
+        </button>
+        </div>
+        <div className="mt-2 flex-1 border-1 border-gray-500">
           {
             data
               .filter(item => searchKey.isEmpty || (item.toLowerCase().includes(searchKey.toLowerCase())))
               .map((item, index) => (
-                <ListItem key={index} className={classes.item}>
+                <div className="py-2 px-4 border-b-1 border-gray-500 last:border-b-0" key={index} >
                   {item}
-                </ListItem>
+                </div>
               ))
           }
-        </List>
+        </div>
       </div>
     </div>
   );
